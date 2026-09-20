@@ -19,5 +19,9 @@
     <form method="GET" action="/listings/<%=listing._id%>/edit">
         <button>Edit Listing</button>
     </form>
+    
+    <form method="POST" action="/listings/<%=listing._id%>/delete?_method=DELETE">
+   <button>Delete</button>
+    </form>
 </body>
 </html>
