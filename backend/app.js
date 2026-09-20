@@ -49,6 +49,28 @@ const allListings = await Listing.find({});
 res.render("listings/index.ejs" , {allListings});
 });
 
+
+app.get("/listings/new" , (req , res) => {
+  res.render("listings/new.ejs");
+});
+
+//create route
+app.post("/listings" , async(req , res) => {
+
+  let newListing = new Listing(req.body.listing);
+  await newListing.save();
+  console.log(newListing);
+   
+  res.redirect("/listings");
+});
+
+//edit route
+app.get("/listings/:id/edit" , (req ,res) => {
+  let {id} = req.params ;
+  let listing = Listing.findById(id);
+  res.render("listings/edit.ejs" , {listing});
+})
+
 //show route
 app.get("/listings/:id" , async (req ,res) => {
 let {id} = req.params ;
@@ -59,10 +81,7 @@ const listing = await Listing.findById(id);
 res.render("listings/show.ejs" , {listing} );
 });
 
-app.get("/listings/new" , (req , res) => {
-  res.render("/listing/new.ejs");
-// const {title , description , price , location , country } = 
-});
+
 app.listen(8080, () => {
   console.log("Server is running");
 });
