@@ -1,19 +1,19 @@
 <% layout("../layouts/boilerplate") %>
 <body>
     <h3> Create New Listing</h3>
-    <form method="POST" action="/listings">
+    <form method="POST" action="/listings" novalidate class="needs-validation" >
 
-        <input name="listing[title]" placeholder="enter title ">
+        <input name="listing[title]" placeholder="enter title " required>
         <br/><br/>
-        <textarea name="listing[description]" placeholder="enter description"></textarea>
+        <textarea name="listing[description]" placeholder="enter description" required ></textarea>
         <br/><br/>
-        <input name="listing[image]" placeholder="enter image url/link">
+        <input name="listing[image]" placeholder="enter image url/link" >
         <br/><br/>
-        <input name="listing[price]" placeholder="enter price ">
+        <input name="listing[price]" placeholder="enter price " required>
         <br/><br/>
-        <input name="listing[location]" placeholder="enter location">
+        <input name="listing[location]" placeholder="enter location" required>
         <br/><br/>
-        <input name="listing[country]" placeholder="enter country ">
+        <input name="listing[country]" placeholder="enter country " required>
         <br/><br/>
     
         <button>Add</button>
