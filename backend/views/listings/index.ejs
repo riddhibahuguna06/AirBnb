@@ -1,11 +1,18 @@
 <%- layout("../layouts/boilerplate") %>
 <h3>All Listings</h3>
 
-<div class="row row-cols-lg-3 row-cols-mg-2 row-col-sg-1">
+<div class="row row-cols-lg-4 row-cols-mg-2 row-col-sg-1">
     <% for (let listing of allListings) { %>
 
+        <a href="/listings/<%= listing._id%>" class="listing-link"  </a>
 <div class="card" style="width: 20rem;">
-  <img src="<%=listing.image.url%>" class="card-img-top" alt="listing.image" >
+
+  <img 
+  src="<%=listing.image.url%>" 
+  class="card-img-top" 
+  alt="listing.image"
+  >
+
   <div class="card-body">
     <p class="card-text">
         <b><%=listing.title%> </b>
@@ -16,4 +23,6 @@
 </div>
  <% } %>
 </div>
+
+
  
