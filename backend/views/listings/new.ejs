@@ -1,8 +1,8 @@
 <% layout("../layouts/boilerplate") %>
-<body>
+
     
 <div class="rows">
-    <div class="col-8 offset-2">
+    <div class="col-8 offset-2 mt-3">
     <h3> Create New Listing</h3>
     <form method="POST" action="/listings" novalidate class="needs-validation" >
 
@@ -15,7 +15,7 @@
          class="form-control"
          placeholder="add title"
          >
-
+    <div class="invalid-feedback">Enter title</div>
         </div>
       
     
@@ -28,6 +28,8 @@
          class="form-control"
          placeholder="add description"
          ></textarea>
+
+         <div class="invalid-feedback">Enter valid description</div>
       </div>
 
        
@@ -51,23 +53,11 @@
         class="form-control"
         placeholder="add price"
         >
+         <div class="invalid-feedback">Enter valid price</div>
 
          </div>
-
-
-        <div class="mb-3 col-md-8" >
-
-         <label for="location" name="form-label">Location</label>
-        <input name="listing[location]"
-        required
-        class="form-control"
-        placeholder="location"
-         >
-        </div>
-
-        </div>
-
-        <div class="mb-3">
+       
+        <div class="mb-3 col-md-8">
         <label for="country" name="form-label">Country</label>
 
         <input name="listing[country]"
@@ -75,10 +65,25 @@
         class="form-control"
         placeholder="add country"
          >
+          <div class="invalid-feedback">Enter valid country</div>
+        </div>
+
+
+        </div>
+
+         <div class="mb-3" >
+
+         <label for="location" name="form-label">Location</label>
+        <input name="listing[location]"
+        required
+        class="form-control"
+        placeholder="location"
+         >
+
+          <div class="invalid-feedback">Enter valid location</div>
         </div>
         
         <button class="btn btn-dark">Add</button>
     </form>
     </div>
     </div>
-</body>
