@@ -91,3 +91,26 @@ color: #222222 !important;
 .listing-link{
     text-decoration: none !important;
 }
+
+.listing-show-card {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+   line-height: normal;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.listing-show-image {
+    width: 100%;
+    height: 300px;
+
+    object-fit:fill;
+    display: block;
+}
+
+.btns{
+    display: flex;
+}
+
