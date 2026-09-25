@@ -13,8 +13,19 @@ const path = require("path");
 
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/expressError.js");
-const { wrap } = require("module");
+const {listingSchema} = require("./schema.js");
+const { valid } = require("joi");
 
+const validateSchema = (req, res, next) => {
+  const {error} = listingSchema.validateSchema(req.body);
+
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400 , errMsg);
+  }else{
+    next();
+  }
+}
 
 main()
   .then(() => {
@@ -66,7 +77,7 @@ app.get("/listings/new" , (req , res , next) => {
 });
 
 //create route
-app.post("/listings" , wrapAsync(async(req , res , next ) => {
+app.post("/listings" , validateSchema , wrapAsync(async(req , res , next ) => {
 
 let newListing = new Listing(req.body.listing);
   await newListing.save();
@@ -78,7 +89,7 @@ let newListing = new Listing(req.body.listing);
 );
 
 //edit route
-app.get("/listings/:id/edit" , wrapAsync(async(req ,res) => {
+app.get("/listings/:id/edit"  , wrapAsync(async(req ,res) => {
   let {id} = req.params ;
   let listing = await Listing.findById(id);
   res.render("listings/edit.ejs" , {listing});
@@ -86,7 +97,7 @@ app.get("/listings/:id/edit" , wrapAsync(async(req ,res) => {
 )
 
 //update route 
-app.put("/listings/:id" , wrapAsync(async(req , res) => {
+app.put("/listings/:id" , validateSchema , wrapAsync(async(req , res) => {
   let {id} = req.params ;
   await Listing.findByIdAndUpdate(id , {...req.body.listing});
   res.redirect(`/listings/${id}`);
@@ -104,7 +115,7 @@ res.redirect("/listings");
 
 
 //show route
-app.get("/listings/:id" , wrapAsync( async (req ,res) => {
+app.get("/listings/:id", wrapAsync( async (req ,res) => {
 let {id} = req.params ;
 
 console.log("ID received:", id);
@@ -115,17 +126,15 @@ res.render("listings/show.ejs" , {listing} );
 );
 
 
-app.all("*" , (err ,req , res , next) => {
+app.all("/{*splat}" , (req , res , next) => {
   
   next(new ExpressError (404 , "page not found"));
 })
 
-
-
 app.use((err , req , res , next) => {
-  let {statusCode = 500 , message ="Something went worng"} = err ;
+  let {statusCode = 500 , message ="Something went wrong"} = err ;
   res.status(statusCode).send(message);
-})
+});
 
 
 app.listen(8080, () => {
