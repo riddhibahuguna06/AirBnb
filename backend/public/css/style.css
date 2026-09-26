@@ -93,24 +93,90 @@ color: #222222 !important;
 }
 
 .listing-show-card {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
-   line-height: normal;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 1.6;
     border: none;
     border-radius: 16px;
     overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .listing-show-image {
     width: 100%;
-    height: 300px;
-
+    height: 360px;
     object-fit:fill;
     display: block;
 }
 
-.btns{
-    display: flex;
+.listing-show-body {
+    padding: 1.5rem;
 }
 
+.listing-details {
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.listing-details > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.listing-detail-label {
+    color: #717171;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.listing-actions form {
+    margin: 0;
+}
+
+.listing-actions .btn,
+.review-panel .btn {
+    border-radius: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.listing-actions .btn:hover,
+.review-panel .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.review-panel {
+    padding: 1.75rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    background: #fafafa;
+}
+
+.review-panel .form-label {
+    font-weight: 600;
+}
+
+.review-panel .form-control {
+    border-color: #d8d8d8;
+    border-radius: 8px;
+}
+
+.review-panel .form-control:focus {
+    border-color: #777;
+    box-shadow: 0 0 0 0.2rem rgba(33, 37, 41, 0.12);
+}
+
+.rating-input {
+    padding-top: 0.35rem;
+}
+
+@media (max-width: 575.98px) {
+    .listing-show-image {
+        height: 250px;
+    }
+
+    .listing-show-body,
+    .review-panel {
+        padding: 1.25rem;
+    }
+}
