@@ -15,6 +15,7 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/expressError.js");
 const {listingSchema} = require("./schema.js");
 const { valid } = require("joi");
+const Review = require("./models/review.js");
 
 const validateSchema = (req, res, next) => {
   const {error} = listingSchema.validateSchema(req.body);
@@ -111,7 +112,21 @@ let deletedListing = await Listing.findByIdAndDelete(id);
 console.log(`Deleted id:${deletedListing}`);
 res.redirect("/listings");
 })
-)
+);
+
+//review route
+app.post("/listings/:id/reviews" , async(req ,res) => {
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+// res.send("review is saved");
+// console.log("review is saved");
+  res.redirect("/listings") ;
+
+})
 
 
 //show route
