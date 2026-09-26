@@ -1,6 +1,6 @@
 <% layout("../layouts/boilerplate") %>
 
-    <h3>Lisiting Details</h3>
+    <h3><%=listing.title %></h3>
     
     <div class="card  listing-show-card">
 
@@ -13,8 +13,7 @@
   <div class="card-body">
 
     <p class="card-text">
-
-       <p><b><%=listing.title %></b></p>
+        
        <p> <%=listing.description %></p>
         <p>  &#8377 <%=listing.price.toLocaleString('en-IN' ) %> /night </p>
         <p> <%=listing.location%></p>
@@ -26,8 +25,3 @@
   </div>
 </div>
 
-
-    
-    
-<!-- </div>
-</div> -->
