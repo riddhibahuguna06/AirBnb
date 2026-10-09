@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/Wanderer";
 
@@ -13,20 +14,9 @@ const path = require("path");
 
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/expressError.js");
-const {listingSchema} = require("./schema.js");
+const {listingSchema , reviewSchema} = require("./schema.js");
 const { valid } = require("joi");
 const Review = require("./models/review.js");
-
-const validateSchema = (req, res, next) => {
-  const {error} = listingSchema.validateSchema(req.body);
-
-  if(error){
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400 , errMsg);
-  }else{
-    next();
-  }
-}
 
 main()
   .then(() => {
@@ -47,6 +37,13 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
+const sessionOptions = { 
+secret : "mysupersecretcode",
+resave: false,
+saveUninitializesd: true ,
+}
+app.use(session(sessionOptions));
+
 app.get("/", (req, res) => {
   res.send("Hi , I am root");
 });
@@ -64,7 +61,29 @@ app.get("/", (req, res) => {
 //   cosole.log("Sample was saved");
 //   res.send("Sucessfull");
 // });
+
+const validateSchema = (req, res, next) => {
+  const {error} = listingSchema.validateSchema(req.body);
+
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400 , errMsg);
+  }else{
+    next();
+  }
+}
  
+const validateReview = (req, res, next) => {
+  const {error} = reviewSchema.validateSchema(req.body);
+
+  if(error){
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400 , errMsg);
+  }else{
+    next();
+  }
+}
+
 //index route
 app.get("/listings" , wrapAsync(async (req , res) => {
 const allListings = await Listing.find({});
@@ -115,18 +134,17 @@ res.redirect("/listings");
 );
 
 //review route
-app.post("/listings/:id/reviews" , async(req ,res) => {
+app.post("/listings/:id/reviews" ,  validateReview , wrapAsync (async(req ,res) => {
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review(req.body.review);
 
   listing.reviews.push(newReview);
   await newReview.save();
   await listing.save();
-// res.send("review is saved");
-// console.log("review is saved");
+
   res.redirect("/listings") ;
 
-})
+}))
 
 
 //show route
