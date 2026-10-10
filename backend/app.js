@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/Wanderer";
 
@@ -37,17 +38,25 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
-const sessionOptions = { 
-secret : "mysupersecretcode",
-resave: false,
-saveUninitializesd: true ,
-}
+const sessionOptions = {
+    secret: "mysupersecretcode",
+    resave: false,
+    saveUninitialized: true
+};
+
 app.use(session(sessionOptions));
+app.use(flash());
 
 app.get("/", (req, res) => {
   res.send("Hi , I am root");
 });
 
+app.use((req , res , next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+
+  next();
+})
 // app.get("/testListings", async (req, res) => {
 //   let sampleListings = new Listing({
 //     title: "My new Villa",
@@ -63,7 +72,7 @@ app.get("/", (req, res) => {
 // });
 
 const validateSchema = (req, res, next) => {
-  const {error} = listingSchema.validateSchema(req.body);
+  const {error} = listingSchema.validate(req.body);
 
   if(error){
     let errMsg = error.details.map((el) => el.message).join(",");
@@ -74,7 +83,7 @@ const validateSchema = (req, res, next) => {
 }
  
 const validateReview = (req, res, next) => {
-  const {error} = reviewSchema.validateSchema(req.body);
+  const {error} = reviewSchema.validate(req.body);
 
   if(error){
     let errMsg = error.details.map((el) => el.message).join(",");
@@ -101,8 +110,7 @@ app.post("/listings" , validateSchema , wrapAsync(async(req , res , next ) => {
 
 let newListing = new Listing(req.body.listing);
   await newListing.save();
-  console.log(newListing);
-
+  req.flash("success" , "New Listing created");
   res.redirect("/listings");
   
 })
@@ -112,14 +120,21 @@ let newListing = new Listing(req.body.listing);
 app.get("/listings/:id/edit"  , wrapAsync(async(req ,res) => {
   let {id} = req.params ;
   let listing = await Listing.findById(id);
+
+if(!listing){
+  req.flash("error" , "Listing doesnot exists");
+  return res.redirect("/listings");
+}
+   req.flash("success" , "Listing edited ");
   res.render("listings/edit.ejs" , {listing});
 })
-)
+);
 
 //update route 
 app.put("/listings/:id" , validateSchema , wrapAsync(async(req , res) => {
   let {id} = req.params ;
   await Listing.findByIdAndUpdate(id , {...req.body.listing});
+   req.flash("success" , "Listing updated");
   res.redirect(`/listings/${id}`);
 })
 );
@@ -127,8 +142,8 @@ app.put("/listings/:id" , validateSchema , wrapAsync(async(req , res) => {
 //delete route
 app.delete("/listings/:id/delete" , wrapAsync(async (req , res) => {
 let {id} = req.params;
-let deletedListing = await Listing.findByIdAndDelete(id);
-console.log(`Deleted id:${deletedListing}`);
+await Listing.findByIdAndDelete(id);
+req.flash("success" , "Listing deleted sucessfully");
 res.redirect("/listings");
 })
 );
@@ -154,6 +169,11 @@ let {id} = req.params ;
 console.log("ID received:", id);
 
 const listing = await Listing.findById(id);
+
+if(!listing){
+  req.flash("error" , "Listing doesnot exists");
+  return res.redirect("/listings");
+}
 res.render("listings/show.ejs" , {listing} );
 })
 );
