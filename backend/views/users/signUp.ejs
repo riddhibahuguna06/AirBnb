@@ -1,0 +1,59 @@
+<% layout("../layouts/boilerplate") %> <%= success %>
+
+<div class="row justify-content-center py-5">
+  <div class="col-md-6 col-lg-5">
+    <div class="card border-0 shadow rounded-4">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="h3 fw-bold mb-2 text-center">Create your account</h1>
+        <p class="text-secondary text-center mb-4">Sign up to start exploring Wanderer.</p>
+
+        <form action="/signup" method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="username"
+              name="username"
+              placeholder="Choose a username"
+              autocomplete="username"
+              required
+            >
+            <div class="invalid-feedback">Please enter a username.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control form-control-lg"
+              id="email"
+              name="email"
+              placeholder="name@example.com"
+              autocomplete="email"
+              required
+            >
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              id="password"
+              name="password"
+              placeholder="At least 8 characters"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+            <div class="invalid-feedback">Please enter a password with at least 8 characters.</div>
+          </div>
+
+          <button type="submit" class="btn btn-dark btn-lg w-100 rounded-3 fw-semibold">Sign up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
