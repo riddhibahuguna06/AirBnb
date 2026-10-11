@@ -1,6 +1,5 @@
 <% layout("../layouts/boilerplate") %>
 
-    
 <div class="rows">
     <div class="col-8 offset-2 mt-3">
     <h3> Edit Listing</h3>
@@ -13,7 +12,7 @@
          name="listing[title]" 
          required
          class="form-control"
-         placeholder="add title"
+        value="<%=listing.title%>"
          >
     <div class="invalid-feedback">Enter title</div>
         </div>
@@ -26,7 +25,8 @@
          required 
          type="string"
          class="form-control"
-         placeholder="add description"
+         value="<%=listing.description%>"
+     
          ></textarea>
 
          <div class="invalid-feedback">Enter valid description</div>
@@ -39,7 +39,7 @@
         <input name="listing[image]" 
         type="number"
         class="form-control"
-        placeholder="add image url"
+        value="<%=listing.image.url%>"
         >
 
        </div>
@@ -51,7 +51,7 @@
         <input name="listing[price]"
        required
         class="form-control"
-        placeholder="add price"
+       value="<%=listing.price%>"
         >
          <div class="invalid-feedback">Enter valid price</div>
 
@@ -63,16 +63,13 @@
         <input name="listing[country]"
         required
         class="form-control"
-        placeholder="add country"
+       value="<%=listing.country%>"
          >
           <div class="invalid-feedback">Enter valid country</div>
         </div>
         
 
         </div>
-
-       
-
 
 
 
@@ -82,7 +79,7 @@
         <input name="listing[location]"
         required
         class="form-control"
-        placeholder="location"
+         value="<%=listing.location%>"
          >
 
           <div class="invalid-feedback">Enter valid location</div>
