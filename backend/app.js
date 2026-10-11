@@ -6,6 +6,9 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const userSchema = require("./models/user.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/Wanderer";
 
@@ -44,12 +47,21 @@ const sessionOptions = {
     saveUninitialized: true
 };
 
-app.use(session(sessionOptions));
-app.use(flash());
-
 app.get("/", (req, res) => {
   res.send("Hi , I am root");
 });
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.sessions());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 
 app.use((req , res , next) => {
   res.locals.success = req.flash("success");
