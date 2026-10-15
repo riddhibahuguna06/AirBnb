@@ -3,7 +3,10 @@ const router = express.Router();
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema } = require("../schema.js");
-const Listing = require("../models/listing.js");
+
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const ExpressError = require("../utils/expressError.js");
 const {isLogged} = require("../middlewares/isLogged.js");
 const listingController = require("../controllers/listings.js");
@@ -28,8 +31,12 @@ router.get("/" , wrapAsync(listingController.indexRoute)
 router.get("/new" , isLogged , listingController.newListing);
 
 //create route
-router.post("/" , validateSchema , wrapAsync(listingController.createListing)
-);
+// router.post("/" , validateSchema , isLogged , wrapAsync(listingController.createListing)
+// );
+
+router.post("/" , upload.single("listing[image]"), (req , res) => {
+  res.send(req.file);
+})
 
 //edit route
 router.get("/:id/edit"  , isLogged ,  wrapAsync(listingController.editListing)
