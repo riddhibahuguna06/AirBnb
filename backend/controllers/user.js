@@ -1,3 +1,5 @@
+const User = require("../models/user.js");
+
 module.exports.getSignUp = (req , res) => {
   res.render("users/signUp.ejs");
 }
@@ -31,7 +33,7 @@ module.exports.getLogin = async(req , res) => {
 
 module.exports.login = async(req , res) => {
 
-    res.flash("success" , "Welcome to Wanderer");
+    req.flash("success" , "Welcome to Wanderer");
     let redirectUrl = res.locals.redirect || "/listings"
    res.redirect(redirectUrl);
 }

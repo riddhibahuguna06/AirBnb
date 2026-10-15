@@ -1,3 +1,5 @@
+const Listing = require("../models/listing.js");
+
 module.exports.editListing = async(req ,res) => {
   let {id} = req.params ;
   let listing = await Listing.findById(id);
