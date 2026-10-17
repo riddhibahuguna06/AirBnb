@@ -82,6 +82,21 @@
 
           <div class="invalid-feedback">Enter valid location</div>
         </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select name="listing[category]" id="category" class="form-select" required>
+            <option value="Mountains" selected>Mountains</option>
+            <option value="Desert">Desert</option>
+            <option value="Beach">Beach</option>
+            <option value="Forests">Forests</option>
+            <option value="Farms">Farms</option>
+            <option value="Camping">Camping</option>
+            <option value="Lakes">Lakes</option>
+            <option value="Iconic cities">Iconic cities</option>
+          </select>
+          <div class="invalid-feedback">Choose a category</div>
+        </div>
         
         <button class="btn btn-dark">Add</button>
     </form>
