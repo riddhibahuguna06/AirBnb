@@ -33,7 +33,13 @@ const listingSchema = new Schema({
 owner : {
   type : Schema.Types.ObjectId ,
   ref : "User"
-}
+},
+category: {
+  type : String ,
+  enum: ["Mountains", "Desert", "Beach", "Forests", "Farms", "Camping", "Lakes", "Iconic cities"],
+  default: "Mountains"
+},
+
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
