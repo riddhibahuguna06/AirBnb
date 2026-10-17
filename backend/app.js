@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV != "production"){
+require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 
@@ -9,6 +13,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const User= require("./models/user.js");
+
 const listingRouter = require("./routes/listingRouter.js");
 const userRouter = require("./routes/userRouter.js");
 const reviewRouter = require("./routes/reviewRouter.js");
@@ -61,6 +66,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req , res , next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
 

@@ -34,9 +34,8 @@ module.exports.getLogin = async(req , res) => {
 module.exports.login = async(req , res) => {
 
     req.flash("success" , "Welcome to Wanderer");
-    let redirectUrl = res.locals.redirect || "/listings"
-   res.redirect(redirectUrl);
-}
+   res.redirect(res.locals.redirectUrl);
+};
 
 module.exports.logOut =  (req , res , next) => {
     req.logout((err) => {
