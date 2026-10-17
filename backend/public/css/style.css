@@ -19,6 +19,40 @@ font-size : 2rem;
 .nav-link{
 color: #222222 !important;
 }
+/* 
+.category-nav {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding: 0.75rem 0.25rem 0.5rem;
+    border-bottom: 1px solid #e5e5e5;
+    scrollbar-width: thin;
+}
+
+.category-filter {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 4.5rem;
+    padding: 0.25rem 0 0.5rem;
+    color: #717171;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.category-filter i {
+    font-size: 1.25rem;
+}
+
+.category-filter:hover,
+.category-filter.active {
+    color: #222222;
+    border-bottom-color: #222222;
+} */
 
 /* footer */
 .f-info-links a{
