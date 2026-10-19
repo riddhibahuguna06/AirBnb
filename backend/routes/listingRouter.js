@@ -4,8 +4,9 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema } = require("../schema.js");
 
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const multer  = require('multer');
+const {storage} = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 const ExpressError = require("../utils/expressError.js");
 const {isLogged} = require("../middlewares/isLogged.js");
@@ -26,24 +27,22 @@ const validateSchema = (req, res, next) => {
 //index route
 router.get("/" , wrapAsync(listingController.indexRoute)
 );
-
-
 router.get("/new" , isLogged , listingController.newListing);
 
-//create route
-// router.post("/" , validateSchema , isLogged , wrapAsync(listingController.createListing)
-// );
-
-router.post("/" , upload.single("listing[image]"), (req , res) => {
-  res.send(req.file);
-})
+// create route
+router.post("/" ,
+    isLogged , 
+   validateSchema , 
+   upload.single("listing[image]") ,
+   wrapAsync(listingController.createListing)
+);
 
 //edit route
 router.get("/:id/edit"  , isLogged ,  wrapAsync(listingController.editListing)
 );
 
 //update route 
-router.put("/:id" , validateSchema , wrapAsync(listingController.updateListing)
+router.put("/:id" , upload.single("listing[image]") , validateSchema , wrapAsync(listingController.updateListing)
 );
 
 //delete route
