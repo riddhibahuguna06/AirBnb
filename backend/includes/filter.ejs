@@ -1,11 +1,28 @@
-<div class="d-flex gap-4 my-3">
+<div class="d-flex flex-wrap align-items-center justify-content-center gap-4 my-3" aria-label="Listing category filters">
   <a href="/listings">All</a>
   <a href="/listings?category=Mountains"><i class="fa-solid fa-mountain"></i></a>
-  <a href="/listings?category=Beach"><i class="fa-solid fa-umbrella-beach"></a>
-  <a href="/listings?category=Forests">F<i class="fa-solid fa-tree"></i></a>
+  <a href="/listings?category=Desert"><i class="fa-solid fa-sun"></i></a>
+  <a href="/listings?category=Beach"><i class="fa-solid fa-umbrella-beach"></i></a>
+  <a href="/listings?category=Forests"><i class="fa-solid fa-tree"></i></a>
   <a href="/listings?category=Camping"><i class="fa-solid fa-campground"></i></a>
-   <a href="/listings?category=Farms"><i class="fa-solid fa-wheat-awn"></i>/a>
-   <a href="/listings?category=Lakes"><i class="fa-solid fa-water"></i>/a>
-    <a href="/listings?category=Iconic cities"><i class="fa-solid fa-city"></i></a>
+  <a href="/listings?category=Farms"><i class="fa-solid fa-wheat-awn"></i></a>
+  <a href="/listings?category=Lakes"><i class="fa-solid fa-water"></i></a>
+  <a href="/listings?category=Iconic%20cities"><i class="fa-solid fa-city"></i></a>
 </div>
 
+<form class="d-flex justify-content-center mb-4" action="/listings" method="GET" role="search">
+  <% if (category) { %>
+    <input type="hidden" name="category" value="<%= category %>">
+  <% } %>
+  <div class="input-group col-12 col-md-8 col-lg-6">
+    <input
+      type="search"
+      class="form-control"
+      name="q"
+      value="<%= searchTerm %>"
+      placeholder="Search by place, title, or country"
+      aria-label="Search listings"
+    >
+    <button class="btn btn-dark" type="submit">Search</button>
+  </div>
+</form>
