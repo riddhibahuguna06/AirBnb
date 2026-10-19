@@ -16,12 +16,14 @@ module.exports.updateListing = async(req , res) => {
  let  {id} = req.params;
  let listing = await Listing.findByIdAndUpdate(id , {...req.body.listing}) ;
  
- let url = req.file.path ;
+if(typeof req.file != "undefined"){ 
+  let url = req.file.path ;
  let fileName = req.file.filename;
   listing.image = {url , fileName} ;
 
   await listing.save() ;
-  
+}
+
    req.flash("success" , "Listing updated");
   res.redirect(`/listings/${id}`);
 };
@@ -51,22 +53,23 @@ module.exports.createListing = async(req , res , next ) => {
 let url = req.file.path ;
 let fileName = req.file.filename;
 let newListing = new Listing(req.body.listing);
- newListing.image.url = {url, fileName};
+
+ newListing.image = {url, fileName};
   await newListing.save();
+
   req.flash("success" , "New Listing created");
   res.redirect("/listings");
   
 } ;
 
 module.exports.indexRoute = async (req , res) => {
-  const category = req.query.category;
+  let category = req.params.category ;
 
-  let allListings;
-
+let allListings; 
   if(category){
- allListings = await Listing.find({category: category});
+   allListings = await Listing.find({category : category}) ;
   }else{
- allListings = await Listing.find({});
+    allListings = await Listing.find();
   }
 
 res.render("listings/index.ejs" , {allListings});

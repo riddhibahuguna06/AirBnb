@@ -32,9 +32,9 @@ module.exports.getLogin = async(req , res) => {
 }
 
 module.exports.login = async(req , res) => {
-
     req.flash("success" , "Welcome to Wanderer");
-   res.redirect(res.locals.redirectUrl);
+    let redirectUrl = res.locals.redirectUrl || "/listings" ;
+    res.redirect(redirectUrl);
 };
 
 module.exports.logOut =  (req , res , next) => {
@@ -45,4 +45,4 @@ module.exports.logOut =  (req , res , next) => {
         req.flash("success" , "you are logged out");
         res.redirect("/listings");
     });
-}
+};
